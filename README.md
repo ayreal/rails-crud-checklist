@@ -74,3 +74,29 @@ end
   end
 
   ```
+
+  ## Basic Error Messages for Validations
+
+  Printing out a list of error messages at the top of a page
+
+  ```ruby
+  <% if @song.errors.any? %>
+  <div id="error_explanation">
+    <h2>There were some errors:</h2>
+    <ul>
+      <% @song.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+```
+
+  Example form field to highlight erroneous field.
+
+  ```ruby
+  <div class="field<%= ' field_with_errors' if @song.errors[:title].any? %>">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+  ```
