@@ -45,7 +45,7 @@ Check that layouts/application.html.erb contains:
   end
 
  def create
-    @post = Post.new(post_params(:title,:description))
+    @post = Post.new(post_params)
     if @post.save       # same as checking if post.valid? first
       redirect_to post_path(@post)
     else
@@ -59,7 +59,7 @@ Check that layouts/application.html.erb contains:
 
   def update
     @post = Post.find(params[:id])
-    if @post.update(post_params(:title,:description))
+    if @post.update(post_params)
       redirect_to post_path(@post)
     else
       render :edit
@@ -73,8 +73,8 @@ Check that layouts/application.html.erb contains:
 
   private
 
-  def post_params(*args)    # strong params method, required for form_for
-    params.require(:post).permit(*args)
+  def post_params    # strong params method, required for form_for
+    params.require(:post).permit(:title, :description)
   end
 
   ```
