@@ -126,7 +126,7 @@ Show Info: <br/>
 
 def create
   @character = Character.new(character_params)
-  # the association will be made once you call save in the create method
+  # the association will be made once you receive hydrated object back from #make_show= and call save in the create method
 end
 
 private
@@ -142,7 +142,8 @@ end
 def make_show=(arg)
   build_show(args)  #OR notes.build (based on relationship)
   # show is not created, but an instance is created and associated with the character
-  # build does not persist UNTIL you save it
+  # object is passed back to the controller, which will call #save and persist it
+
 end
 
 ```
