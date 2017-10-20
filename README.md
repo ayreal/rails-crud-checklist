@@ -83,7 +83,7 @@ Check that layouts/application.html.erb contains:
 
   Printing out a list of error messages at the top of a page
 
-  ```ruby
+  ```HTML
   <% if @song.errors.any? %>
   <div id="error_explanation">
     <h2>There were some errors:</h2>
@@ -98,9 +98,41 @@ Check that layouts/application.html.erb contains:
 
   Example form field to highlight erroneous field.
 
-  ```ruby
+  ```HTML
   <div class="field<%= ' field_with_errors' if @song.errors[:title].any? %>">
     <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
   ```
+
+## Associating Models with Basic Forms
+
+```HTML
+Character Info: <br/>
+<%= form_for @character do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %> <br />
+Show Info: <br/>
+  <%= fields_for :make_show do |j| %>
+    <%= j.label :title %>
+    <%= j.text_field :title %><br />
+  <% end %>
+  <%= f.submit %>
+<% end %>
+```    
+
+```ruby
+# In the Character model
+
+def make_show=(arg)
+  build_show(args)  
+  # show is not created, but an instance is created and associated with the character
+  # build does not persist
+end
+
+def character_params
+  params.require(:character).permit(:name,make_show:[:title])
+end
+```
+
+...then create the object in the `#create` method of the characters controller.
