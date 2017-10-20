@@ -18,7 +18,7 @@
 
 Check that layouts/application.html.erb contains:
 
-```ruby
+```HTML
 <%= stylesheet_link_tag    'application', media: 'all' %>
 <%= javascript_include_tag :application %>
 <%= csrf_meta_tags %>
@@ -113,7 +113,7 @@ Character Info: <br/>
   <%= f.label :name %>
   <%= f.text_field :name %> <br />
 Show Info: <br/>
-  <%= fields_for :make_show do |j| %>
+  <%= f.fields_for :make_show do |j| %>
     <%= j.label :title %>
     <%= j.text_field :title %><br />
   <% end %>
