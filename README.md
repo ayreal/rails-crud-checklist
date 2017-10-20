@@ -107,6 +107,15 @@ Check that layouts/application.html.erb contains:
 
 ## Associating Models with Basic Forms
 
+```ruby
+# in the character controller, start with
+
+def create
+  @character = Character.new(character_params)
+  # the association will be made once you call save in the create method
+end
+```
+
 ```HTML
 Character Info: <br/>
 <%= form_for @character do |f| %>
@@ -125,14 +134,12 @@ Show Info: <br/>
 # In the Character model
 
 def make_show=(arg)
-  build_show(args)  
+  build_show(args)  #OR notes.build (based on relationship)
   # show is not created, but an instance is created and associated with the character
-  # build does not persist
+  # build does not persist UNTIL you save it
 end
 
 def character_params
   params.require(:character).permit(:name,make_show:[:title])
 end
 ```
-
-...then create the object in the `#create` method of the characters controller.
