@@ -1,12 +1,12 @@
 ## Simple CRUD With Rails Checklist!!!
 
 - Create project: `rails new project_name`
-- Create table/model: `rails g model Model_name attribute:datatype --no-test-framework`
-- Create relationships in model
+- Create table/model: `rails g model Model_name_singular attribute:datatype --no-test-framework` (or `rails g resources Model_name_singular attribute:datatype --no-test-framework` for tables, models, views, and routes)
 - Run migrations
-- Seed DB
+- Create relationships in model
+- Seed DB (optional)
 - Check objects/relationships in `console rails c`
-- Draw routes with `resources: routes`
+- Draw routes with `resources: routes`, remove unnecessary routes for simplicity
 - Check routes with `rake:routes`
 - Run server `rails s` (refresh any time you make changes to routes)
 - Create controllers (name plural), inherit from ApplicationController
@@ -45,27 +45,31 @@ Check that layouts/application.html.erb contains:
   end
 
  def create
-    @post = post.new(post_params(:title,:description))
-    if @post.valid?
-      @post.save
+    @post = Post.new(post_params(:title,:description))
+    if @post.save       # same as checking if post.valid? first
       redirect_to post_path(@post)
     else
       render :new
     end
   end
 
-def update
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
     if @post.update(post_params(:title,:description))
       redirect_to post_path(@post)
     else
       render :edit
     end
-end
+  end
 
-def destroy
-  @post = Post.find(params[:id]).destroy
-  redirect_to posts_path
-end
+  def destroy
+    @post = Post.find(params[:id]).destroy
+    redirect_to posts_path
+  end
 
   private
 
