@@ -67,11 +67,13 @@
 
   ## Troubleshooting #destroy
 
-  Check that your assets > javascript > application.js has the following code and that `gem 'jquery-rails'` and `gem 'jquery-ui-rails'` are in your gemfile. Run bundle install.
+  - Check that your assets > javascript > application.js has the following code:
   `//= require jquery`
   `//= require jquery_ujs`
 
-  Check that layouts/application.html.erb contains:
+  - Check that `gem 'jquery-rails'` and `gem 'jquery-ui-rails'` are in your gemfile. Run `bundle install`.
+
+  - Check that layouts/application.html.erb contains:
 
   ```HTML
   <%= stylesheet_link_tag    'application', media: 'all' %>
