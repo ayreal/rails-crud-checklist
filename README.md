@@ -105,7 +105,7 @@ Check that layouts/application.html.erb contains:
   </div>
   ```
 
-## Associating Models with Basic Forms
+## Associating Models with Basic Forms - Custom Setter
 
 ```HTML
 Character Info: <br/>
@@ -147,3 +147,55 @@ def make_show=(arg)
 end
 
 ```
+
+## Associating Models with Basic Forms - accepts_nested_attributes_for
+
+```ruby
+# In the Recipe model
+
+has_many :ingredients
+accepts_nested_attributes_for :ingredients
+
+```
+
+```ruby
+# in the recipe controller
+
+def new
+  # creating 2 recipe ingredient instances here makes the form create two different ingredient objects associated with this recipe
+  # we build recipe.ingredients because a recipe has_many ingredients
+  @recipe = Recipe.new
+  @recipe.ingredients.build
+  @recipe.ingredients.build
+end
+
+def create
+  @recipe = Recipe.new(recipe_params)
+  # recipe_params will nest automatically and look like:
+  # "recipe"=>{"title"=>"tacos", "ingredients_attributes"=>{"0"=>{"name"=>"beans","quantity"=>"1"},
+  # "1"=>{"name"=>"rice", "quantity"=>"2"}}}, "commit"=>"Create Recipe"}
+  @recipe.save!
+  redirect_to recipe_path(@recipe)
+end
+
+private
+
+def recipe_params
+  params.require(:recipe).permit(:title, ingredients_attributes:[:name, :quantity])
+end
+
+```
+
+```HTML
+<%= form_for @recipe do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %> <br/>
+  <%= f.fields_for :ingredients do |ing| %>
+    <%= ing.label :name %>
+    <%= ing.text_field :name %> </br>
+    <%= ing.label :quantity %>
+    <%= ing.text_field :quantity %> </br>
+  <% end %>
+  <%= f.submit %>
+<% end %>
+```    
