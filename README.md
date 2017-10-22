@@ -4,29 +4,15 @@
 - Create table/model: `rails g model Model_name_singular attribute:datatype --no-test-framework` (or `rails g resources Model_name_singular attribute:datatype --no-test-framework` for tables, models, views, and routes)
 - Run migrations
 - Create relationships in model
-- Seed DB (optional)
 - Check objects/relationships in `console rails c`
+- Seed DB (optional)
 - Draw routes with `resources: routes`, remove unnecessary routes for simplicity
 - Check routes with `rake:routes`
 - Run server `rails s` (refresh any time you make changes to routes)
 - Create controllers (name plural), inherit from ApplicationController
 - Make show pages in views, under their respective model names (plural)
 - Create controller actions for CRUD/other routes as necessary (see below)
-- If you need to delete, check that your assets > javascript > application.js has the following code and that `gem 'jquery-rails'` and `gem 'jquery-ui-rails'` are in your gemfile. Run bundle install.
-`//= require jquery`
-`//= require jquery_ujs`
-
-Check that layouts/application.html.erb contains:
-
-```HTML
-<%= stylesheet_link_tag    'application', media: 'all' %>
-<%= javascript_include_tag :application %>
-<%= csrf_meta_tags %>
-```
-
 - Add validations to models
-
-
 
 ## CRUD Controller Actions With Validations
 
@@ -79,9 +65,23 @@ Check that layouts/application.html.erb contains:
 
   ```
 
+  ## Troubleshooting #destroy
+
+  Check that your assets > javascript > application.js has the following code and that `gem 'jquery-rails'` and `gem 'jquery-ui-rails'` are in your gemfile. Run bundle install.
+  `//= require jquery`
+  `//= require jquery_ujs`
+
+  Check that layouts/application.html.erb contains:
+
+  ```HTML
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag :application %>
+  <%= csrf_meta_tags %>
+  ```
+
   ## Basic Error Messages for Validations
 
-  Printing out a list of error messages at the top of a page
+  Printing out a list of error messages at the top of a page:
 
   ```HTML
   <% if @song.errors.any? %>
@@ -96,7 +96,7 @@ Check that layouts/application.html.erb contains:
 <% end %>
 ```
 
-  Example form field to highlight erroneous field.
+  Example form field to highlight erroneous field:
 
   ```HTML
   <div class="field<%= ' field_with_errors' if @song.errors[:title].any? %>">
@@ -122,7 +122,7 @@ Show Info: <br/>
 ```    
 
 ```ruby
-# in the character controller, start with
+# in the characters controller
 
 def create
   @character = Character.new(character_params)
@@ -140,7 +140,7 @@ end
 # In the Character model
 
 def make_show=(arg)
-  build_show(args)  #OR notes.build (based on relationship)
+  build_show(args)  #OR shows.build (based on relationship)
   # show is not created, but an instance is created and associated with the character
   # object is passed back to the controller, which will call #save and persist it
 
